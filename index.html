@@ -185,6 +185,64 @@ body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:150px;backg
  .strain-hero{aspect-ratio:4/3;border-radius:16px;margin-bottom:21px}
  .strain-section>.cards{padding-top:13px}
 }
+
+/* ===== SOLO BANNER LATERAL: información de pagos para artículos permitidos ===== */
+.payment-stage{position:relative}
+.pay-banner{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  color:#fff7d7;text-align:center;
+  padding:14px 12px 13px;
+  margin:0 0 16px;
+  border:3px solid #2a1b0e;border-radius:20px;
+  background:linear-gradient(165deg,#20392a 0%,#10241c 65%,#0b1b16 100%);
+  box-shadow:0 5px 0 #2a1b0e, inset 0 0 0 1px #d2b76b44;
+}
+.pay-banner::before{
+  content:"";position:absolute;inset:7px;border:1px dashed #dcc07566;
+  border-radius:13px;pointer-events:none;z-index:-1;
+}
+.pay-banner::after{
+  content:"✦";position:absolute;right:12px;top:7px;
+  color:#d1ae5a;opacity:.5;font-size:23px;pointer-events:none;
+}
+.pay-banner .pay-anchor{font-size:1.2rem;line-height:1;margin-top:2px}
+.pay-banner h3{
+  color:#ffe01b;font-family:"Lilita One","Trebuchet MS",Impact,sans-serif;
+  font-size:1.45rem;line-height:1.08;font-weight:400;margin:0;
+  text-shadow:0 2px 0 #2a1b0e;
+}
+.pay-banner .pay-lead{font-size:.72rem;line-height:1.28;color:#eee1b9;margin:0 0 3px}
+.pay-banner .pay-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;width:100%}
+.pay-banner .pay-item{
+  min-width:0;min-height:47px;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:2px;padding:6px 4px;
+  border:1px dashed #ddc0788a;border-radius:10px;
+  background:#f3e8aa12;color:#fff7d7;
+  font-size:.68rem;line-height:1.1;font-weight:800;
+  overflow-wrap:anywhere;
+}
+.pay-banner .pay-emoji{font-size:1rem;line-height:1}
+.pay-banner .pay-note{font-size:.66rem;line-height:1.25;color:#dbcda0;margin:4px 3px 0}
+/* En pantallas anchas, ocupa el espacio libre a la izquierda del contador.
+   No empuja, tapa ni cambia la posición del contenido principal. */
+@media(min-width:1500px){
+  .payment-stage>.pay-banner{
+    position:absolute;top:0;right:calc(100% + 18px);
+    width:min(245px, calc((100vw - 1000px) / 2 - 34px));
+    margin:0;
+  }
+}
+/* Cuando no cabe a un lado, el banner entra en el flujo normal sin solaparse. */
+@media(min-width:750px) and (max-width:1499px){
+  .payment-stage>.pay-banner{max-width:100%;}
+  .pay-banner .pay-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+}
+@media(max-width:749px){
+  .pay-banner{padding:12px 10px;gap:6px}
+  .pay-banner h3{font-size:1.3rem}
+  .pay-banner .pay-item{min-height:42px}
+}
 </style>
 </head>
 <body>
@@ -230,11 +288,28 @@ body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:150px;backg
 <div class="tick"><div>🥚 Sin intermediarios &nbsp;•&nbsp; 🚚 Express GRATIS hasta el 31 de diciembre &nbsp;•&nbsp; 🐔 Del pollo a su jeta &nbsp;•&nbsp; 🥚 Sin intermediarios &nbsp;•&nbsp; 🚚 Express GRATIS hasta el 31 de diciembre &nbsp;•&nbsp; 🐔 Del pollo a su jeta &nbsp;•&nbsp; 🥚 Sin intermediarios &nbsp;•&nbsp; 🚚 Express GRATIS hasta el 31 de diciembre &nbsp;•&nbsp; 🐔 Del pollo a su jeta &nbsp;•&nbsp; 🥚 Sin intermediarios &nbsp;•&nbsp; 🚚 Express GRATIS hasta el 31 de diciembre &nbsp;•&nbsp; 🐔 Del pollo a su jeta &nbsp;•&nbsp; </div></div>
 <div class="wrap">
   <div class="hero2"><div class="photo" role="img" aria-label="Tony con sus gallinas y una canasta de huevos"><i class="tape"></i></div><div class="ht"><h2 class="fun">Huevos frescos, directo de la finca</h2><p>Sin intermediarios · Del pollo a su jeta</p><div class="pills"><span>🥚 Frescos</span><span>🐔 De la finca</span><span>🚚 Express gratis</span></div></div></div>
-  <div class="cd" id="cd">
-    <h2>🚚 ¡Express GRATIS hasta fin de año!</h2>
-    <p>Pide hoy y recibe sin pagar envío. Después del 31 de diciembre, se acaba.</p>
-    <div class="boxes" id="boxes"></div>
-    <div class="alert" id="alert"></div>
+  <div class="payment-stage">
+    <!-- Banner informativo en el espacio lateral: no procesa pagos ni datos personales. -->
+    <aside class="pay-banner" aria-labelledby="pay-title">
+      <span class="pay-anchor" aria-hidden="true">⚓</span>
+      <h3 id="pay-title">Métodos de pago</h3>
+      <p class="pay-lead">¡Elegí cómo coordinar!</p>
+      <div class="pay-grid">
+        <div class="pay-item"><span class="pay-emoji" aria-hidden="true">💵</span>Efectivo</div>
+        <div class="pay-item"><span class="pay-emoji" aria-hidden="true">📱</span>SINPE Móvil</div>
+        <div class="pay-item"><span class="pay-emoji" aria-hidden="true">🏦</span>Transferencia bancaria</div>
+        <div class="pay-item"><span class="pay-emoji" aria-hidden="true">💳</span>Tarjeta (si aplica)</div>
+        <div class="pay-item"><span class="pay-emoji" aria-hidden="true">📍</span>Entrega coordinada</div>
+        <div class="pay-item"><span class="pay-emoji" aria-hidden="true">🛍️</span>Retiro acordado</div>
+      </div>
+      <p class="pay-note">Solo para productos de venta permitida. Consultá la disponibilidad antes de pagar.</p>
+    </aside>
+    <div class="cd" id="cd">
+      <h2>🚚 ¡Express GRATIS hasta fin de año!</h2>
+      <p>Pide hoy y recibe sin pagar envío. Después del 31 de diciembre, se acaba.</p>
+      <div class="boxes" id="boxes"></div>
+      <div class="alert" id="alert"></div>
+    </div>
   </div>
   <div class="tabs" id="tabs"></div>
   <div id="menu"></div>

@@ -87,3 +87,22 @@ git push origin main
 ```
 
 Si la rama es otra, sustituye `main` por el resultado de `git branch --show-current`. Recarga la página publicada con `Ctrl + Shift + R`.
+
+
+## Banner lateral de métodos de pago (nuevo)
+
+Se incorporó **únicamente en el espacio libre a la izquierda del contador de envío** un cartel informativo con estética náutica original (sin replicar marcas ajenas), usando el verde y amarillo del sitio. En pantallas de menos de 1500 px el banner se reubica en el flujo de la página para no superponerse con el contenido.
+
+El cartel menciona efectivo, SINPE Móvil, transferencia bancaria, tarjeta si está disponible, entrega coordinada y retiro acordado. La información se refiere **solo a productos cuya venta esté permitida**; no es una pasarela de pago, no cobra, no valida métodos ni solicita cédula o ubicación.
+
+Se conservaron intactos el inventario, precios, imágenes, video Ferrari en Google Drive, carrito y funciones originales.
+
+### Cómo subir los archivos al repositorio existente
+
+Reemplaza únicamente `index.html` y `Tony’s Farm.md` en tu carpeta del proyecto (mantén `images/` y `videos/`). Después ejecuta:
+
+```bash
+git add index.html "Tony’s Farm.md"
+git commit -m "Agregar banner informativo lateral"
+git push origin main
+```
