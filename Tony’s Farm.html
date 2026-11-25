@@ -157,6 +157,32 @@ body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:150px;backg
 .eggfx svg{width:110px;height:143px;overflow:visible}
 .sh{position:absolute;left:50%;top:55%;width:9px;height:9px;background:#e8b88a;clip-path:polygon(50% 0,100% 100%,0 80%);opacity:0}
 @media(max-width:560px){.hin{flex-wrap:wrap}.tools{gap:4px}.tools button{padding:6px 9px}}
+
+/* =====================================================
+   SOLO HUEVOS STRAINS: cabeceras limpias y medios sin recorte.
+   No altera precios, tarjetas, carrito ni otras categorias.
+   ===================================================== */
+.strain-section{margin:0 0 52px;padding-top:5px;isolation:isolate}
+.strain-section:last-child{margin-bottom:0}
+/* La etiqueta va FUERA de la foto: nunca tapa texto ni video. */
+.strain-heading{display:flex;align-items:center;justify-content:flex-start;gap:10px;padding:0 4px;margin:0 0 12px;min-height:41px}
+.strain-name{display:inline-block;position:static;margin:0;background:var(--yel);color:#2a1b0e;border:2px solid #2a1b0e;border-radius:12px;padding:5px 14px;box-shadow:0 3px 0 #2a1b0e;font-family:"Lilita One","Trebuchet MS",Impact,sans-serif;font-size:1.5rem;line-height:1.15}
+/* No se reducen ni recomprimen las fotos: object-fit contain evita cortes. */
+.strain-hero{position:relative;width:100%;aspect-ratio:16/9;min-width:0;min-height:0;background:#10200d;border:3px solid #2a1b0e;border-radius:20px;overflow:hidden;box-shadow:0 5px 0 #2a1b0e;margin:0 0 28px}
+.strain-hero img,.strain-hero video{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:100%;object-fit:contain;object-position:center;background:#10200d}
+.strain-hero video{cursor:auto}
+.strain-missing{display:none;position:absolute;inset:0;align-items:center;justify-content:center;text-align:center;padding:24px;background:#171d17;color:#f6efd9;font-size:.92rem;font-weight:700}
+.strain-hero.media-missing .strain-missing{display:flex}
+/* Deja respirar la insignia 'Mejor precio' y todas las tarjetas. */
+.strain-section>.cards{padding-top:13px;row-gap:20px}
+.strain-section .pc{min-width:0}
+@media(max-width:560px){
+ .strain-section{margin-bottom:36px;padding-top:2px}
+ .strain-heading{margin-bottom:10px;min-height:36px}
+ .strain-name{font-size:1.15rem;padding:5px 11px}
+ .strain-hero{aspect-ratio:4/3;border-radius:16px;margin-bottom:21px}
+ .strain-section>.cards{padding-top:13px}
+}
 </style>
 </head>
 <body>
@@ -260,6 +286,18 @@ var IMGS={
   e6:"images/Edibles 6.jpeg",
   u1:"",u2:"",u3:"",u4:"",u5:"",u6:""
 };
+/* Cada variedad muestra las MISMAS cuatro medidas y precios del catálogo original.
+   Las IDs distintas evitan que Oreoz, Kreepy y Ferrari se mezclen en el carrito. */
+var STRAIN_GROUPS=[
+ {key:"kreepy",name:"Kreepy CR",src:IMGS.s1},
+ {key:"oreoz",name:"Oreoz 24%",src:IMGS.s2},
+ {key:"ferrari",name:"Ferrari 24%",src:IMGS.s4}
+];
+var STRAIN_PRODUCTS=STRAIN_GROUPS.flatMap(function(g){
+ return ITEMS.filter(function(it){return it.c==="strains"}).map(function(it){
+  return {id:g.key+"-"+it.id,c:it.c,n:it.n,pc:it.pc,p:it.p,variety:g.name,varietyKey:g.key};
+ });
+});
 var END=new Date(new Date().getFullYear(),11,31,23,59,59);
 /* ================================== */
 var user=null,qs={},cart={},fails=0,lockUntil=0,cat="strains",snd=true,mus=true,AC,SFXBUF,MUSBUF,MUSSRC,MG;
@@ -287,8 +325,8 @@ async function login(){
  greet();setInterval(greet,1000);tick();setInterval(tick,1000);render()}
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
 function free(){return END-new Date()>0}
-function byId(id){return ITEMS.filter(function(i){return i.id===id})[0]}
-function label(it){return it.c==="strains"?"Huevos "+it.n+" ("+it.pc+" huevos)":it.n}
+function byId(id){return ITEMS.concat(STRAIN_PRODUCTS).filter(function(i){return i.id===id})[0]}
+function label(it){return it.c==="strains"?"Huevos "+(it.variety?it.variety+" · ":"")+it.n+" ("+it.pc+" huevos)":it.n}
 function per(it){return it.p/it.pc}
 function greet(){var d=new Date(),h=d.getHours(),m=h>=5&&h<12,t=h>=12&&h<19;
  $("hello").textContent=(m?"☀️ Buenos días":t?"🌤️ Buenas tardes":"🌙 Buenas noches");
@@ -307,14 +345,66 @@ function slot(it){
  return '<div class="ph">'+media+'<span>📷<small>Imagen · '+esc(it.n)+'</small></span></div>';
 }
 function ch(id,d){qs[id]=Math.max(1,(qs[id]||1)+d);render()}
+/* Solo soporte de medios en cabeceras; no cambia las tarjetas ni los pedidos. */
+function strainVideoError(video){
+ var frame=video.parentNode;
+ if(video.dataset.reintento!=="1"){
+  /* Si el archivo estaba en la raiz, intenta esa ruta tambien. */
+  video.dataset.reintento="1";
+  video.src="Ferrari.mp4";
+  video.load();
+  return;
+ }
+ if(frame){
+  frame.classList.add("media-missing");
+  var aviso=frame.querySelector(".strain-missing");
+  if(aviso)aviso.textContent="No se pudo abrir Ferrari.mp4. Revisa la publicacion del archivo y su codificacion H.264.";
+ }
+ console.warn("Ferrari.mp4 no pudo cargarse o reproducirse.",video.currentSrc,video.error&&video.error.code);
+}
+function strainHeader(g){
+ var src=esc(g.src||""),video=/\.(mp4|webm)$/i.test(g.src||"");
+ var media=g.src?(video
+  ?'<video src="'+src+'" controls playsinline preload="metadata" aria-label="Video de '+esc(g.name)+'" onerror="strainVideoError(this)"></video>'
+  :'<img src="'+src+'" alt="Variedad '+esc(g.name)+'" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'media-missing\')">'
+ ):'';
+ return '<div class="strain-heading"><h2 class="strain-name">'+esc(g.name)+'</h2></div>'+
+  '<div class="strain-hero" role="group" aria-label="'+esc(g.name)+'">'+media+
+  '<span class="strain-missing">No se encontró el archivo de '+esc(g.name)+'</span></div>';
+}
+/* Tarjeta original: mismos huevos, precio, descuento, controles y botón. */
+function productCard(it,i,best,st,withoutSlot){
+ var q=qs[it.id]||1,top,note="";
+ if(it.c==="strains"){
+  var sv=Math.round((1-per(it)/per(st[0]))*100);
+  top='<div class="eg">'+eggs(it.pc)+'</div><div class="pcs">'+it.pc+' huevos</div>';
+  note='<small>'+col(Math.round(per(it)))+' c/u'+(sv>0?' · ahorras '+sv+'%':'')+'</small>';
+ }else{
+  top='<div class="big">'+it.e+'</div><div class="pcs">'+it.d+'</div>';
+ }
+ var isBest=it.c==="strains"&&it.pc===best.pc&&it.p===best.p;
+ return '<div class="pc'+(isBest?' best':'')+'" style="animation-delay:'+i*70+'ms">'+
+  (isBest?'<span class="tag">⭐ Mejor precio</span>':'')+
+  (withoutSlot?'':slot(it))+'<h3>'+it.n+'</h3>'+top+'<div class="pp">'+col(it.p)+'</div>'+note+
+  '<div class="row"><span class="qty"><button class="ghost" aria-label="Menos" onclick="ch(\''+it.id+'\',-1)">−</button><b>'+q+'</b><button class="ghost" aria-label="Más" onclick="ch(\''+it.id+'\',1)">+</button></span><b>'+col(it.p*q)+'</b></div><button class="addb" onclick="add(\''+it.id+'\',this)">Agregar al pedido</button></div>';
+}
 function render(){
  $("tabs").innerHTML=CATS.map(function(c){return '<button class="tb'+(c.k===cat?' on':'')+'" onclick="setCat(\''+c.k+'\')"><span>'+c.e+'</span>'+c.l+'</button>'}).join("");
- var st=ITEMS.filter(function(i){return i.c==="strains"}),best=st[0];st.forEach(function(s){if(per(s)<per(best))best=s});
- $("menu").innerHTML='<div class="cards">'+ITEMS.filter(function(i){return i.c===cat}).map(function(it,i){var q=qs[it.id]||1,top,note="";
-  if(it.c==="strains"){var sv=Math.round((1-per(it)/per(st[0]))*100);top='<div class="eg">'+eggs(it.pc)+'</div><div class="pcs">'+it.pc+' huevos</div>';note='<small>'+col(Math.round(per(it)))+' c/u'+(sv>0?' · ahorras '+sv+'%':'')+'</small>'}
-  else top='<div class="big">'+it.e+'</div><div class="pcs">'+it.d+'</div>';
-  return '<div class="pc'+(it===best?' best':'')+'" style="animation-delay:'+i*70+'ms">'+(it===best?'<span class="tag">⭐ Mejor precio</span>':'')+slot(it)+'<h3>'+it.n+'</h3>'+top+'<div class="pp">'+col(it.p)+'</div>'+note+'<div class="row"><span class="qty"><button class="ghost" aria-label="Menos" onclick="ch(\''+it.id+'\',-1)">−</button><b>'+q+'</b><button class="ghost" aria-label="Más" onclick="ch(\''+it.id+'\',1)">+</button></span><b>'+col(it.p*q)+'</b></div><button class="addb" onclick="add(\''+it.id+'\',this)">Agregar al pedido</button></div>'}).join("")+'</div>';
- totals()}
+ var st=ITEMS.filter(function(i){return i.c==="strains"}),best=st[0];
+ st.forEach(function(s){if(per(s)<per(best))best=s});
+ if(cat==="strains"){
+  $("menu").innerHTML=STRAIN_GROUPS.map(function(g){
+   var cards=STRAIN_PRODUCTS.filter(function(it){return it.varietyKey===g.key});
+   return '<section class="strain-section">'+strainHeader(g)+'<div class="cards">'+
+    cards.map(function(it,i){return productCard(it,i,best,st,true)}).join("")+
+    '</div></section>';
+  }).join("");
+ }else{
+  $("menu").innerHTML='<div class="cards">'+ITEMS.filter(function(it){return it.c===cat})
+   .map(function(it,i){return productCard(it,i,best,st,false)}).join("")+'</div>';
+ }
+ totals();
+}
 function dec(b){var s=atob(b),u=new Uint8Array(s.length);for(var i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return new Promise(function(ok,no){AC.decodeAudioData(u.buffer,ok,no)})}
 function initAudio(){if(AC)return;try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return}
  dec(SFX64).then(function(b){SFXBUF=b}).catch(function(){});
@@ -350,14 +440,14 @@ function eggFx(x,y,done){
  el.animate([{opacity:1},{opacity:1,offset:FIN/D},{opacity:0}],{duration:D,fill:"forwards"});
  setTimeout(done,FIN);setTimeout(function(){el.remove()},D+60)}
 function add(id,btn){var r=btn.getBoundingClientRect(),it=byId(id);cart[id]=(cart[id]||0)+(qs[id]||1);qs[id]=1;render();
- eggFx(r.left+r.width/2,r.top,function(){toast("🥚 "+it.n+" agregado");var f=$("fab");f.classList.remove("bump");void f.offsetWidth;f.classList.add("bump")})}
+ eggFx(r.left+r.width/2,r.top,function(){toast("🥚 "+(it.variety?it.variety+" · ":"")+it.n+" agregado");var f=$("fab");f.classList.remove("bump");void f.offsetWidth;f.classList.add("bump")})}
 function msg(){var k=Object.keys(cart),t=0,m="Hola Tony, soy "+user.id+". Quiero hacer este pedido (Tony’s Farm):\n"+k.map(function(i){var it=byId(i);t+=cart[i]*it.p;return "• "+cart[i]+" x "+label(it)}).join("\n")+"\nTotal: "+col(t)+(free()?"\nEnvío express: GRATIS":"");
  var a=$("addr")?$("addr").value.trim():"",n=$("note")?$("note").value.trim():"";if(a)m+="\nDirección: "+a;if(n)m+="\nNota: "+n;return m}
 function upd(){var m=msg();$("wa").href="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(m);$("prev").value=m;try{localStorage.setItem("tf-addr",$("addr").value)}catch(e){}}
 function go(){if(!Object.keys(cart).length){toast("Agrega algo primero");return false}if(!$("addr").value.trim()){toast("Escribe tu dirección de entrega");$("addr").focus();return false}return true}
 function cp(){var p=$("prev");p.select();try{navigator.clipboard.writeText(p.value).then(function(){toast("Mensaje copiado")},function(){document.execCommand("copy");toast("Mensaje copiado")})}catch(e){try{document.execCommand("copy");toast("Mensaje copiado")}catch(x){}}}
 function openCart(){var t=0,rows=Object.keys(cart).map(function(i){var it=byId(i);t+=cart[i]*it.p;
- return '<div class="row"><div><b>'+it.n+'</b><br><small style="color:var(--mute)">'+col(it.p)+' c/u</small></div><span class="qty"><button class="ghost" onclick="cq(\''+i+'\',-1)">−</button>'+cart[i]+'<button class="ghost" onclick="cq(\''+i+'\',1)">+</button></span></div>'}).join("");
+ return '<div class="row"><div><b>'+(it.variety?it.variety+' · ':'')+it.n+'</b><br><small style="color:var(--mute)">'+col(it.p)+' c/u</small></div><span class="qty"><button class="ghost" onclick="cq(\''+i+'\',-1)">−</button>'+cart[i]+'<button class="ghost" onclick="cq(\''+i+'\',1)">+</button></span></div>'}).join("");
  var sv="";try{sv=localStorage.getItem("tf-addr")||""}catch(e){}
  $("layer").innerHTML='<div class="veil" onclick="closeL()"><div class="sheet" onclick="event.stopPropagation()"><h2 style="margin-bottom:8px">Tu pedido</h2>'+(rows||'<p style="color:var(--mute)">Aún no has agregado nada.</p>')+(free()?'<div class="free">🚚 Envío express: GRATIS</div>':'')+'<div class="row"><b>Total</b><b>'+col(t)+'</b></div><input id="addr" placeholder="Dirección de entrega (obligatoria)" value="'+esc(sv)+'" oninput="upd()"><textarea id="note" rows="2" placeholder="Nota para Tony (hora, referencias…)" oninput="upd()"></textarea><a class="btn" id="wa" href="#" target="_blank" rel="noopener" onclick="return go()">💬 Enviar pedido por WhatsApp</a><details><summary>Ver o copiar el mensaje</summary><textarea id="prev" readonly rows="6"></textarea><button class="ghost" style="width:100%" onclick="cp()">Copiar mensaje</button></details></div></div>';upd()}
 function cq(id,d){cart[id]+=d;if(cart[id]<1)delete cart[id];render();openCart()}
