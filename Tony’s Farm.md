@@ -39,9 +39,9 @@ Se muestran tres bloques de ancho completo, **en este orden**:
 
 1. **Kreepy CR** — `images/Kreepy.jpeg`
 2. **Oreoz 24%** — `images/Oreoz.jpeg`
-3. **Ferrari 24%** — `videos/ezyZip.mp4`
+3. **Ferrari 24%** — video en línea: `https://drive.google.com/file/d/1cmNWUA6uDxhNCxB80T1hAQfjdD7lV9yE/preview`
 
-En cada bloque la etiqueta amarilla se presenta **encima y fuera del medio**, nunca por encima de la foto ni de los controles del video. Los archivos originales se muestran con `object-fit: contain` para evitar recortes o distorsiones: esto puede dejar márgenes oscuros cuando su relación de aspecto no sea 16:9. **No se recomprimen ni se modifica la calidad de las fotos o videos.**
+En cada bloque la etiqueta amarilla se presenta **encima y fuera del medio**, nunca por encima de la foto ni de los controles del video. Las fotos originales se muestran con `object-fit: contain` para evitar recortes o distorsiones: puede haber márgenes oscuros cuando su relación de aspecto no sea 16:9. El reproductor de Ferrari utiliza el iframe de Google Drive y Google controla la calidad de streaming. El código no recomprime las fotos.
 
 Debajo de cada cabecera se conservan las cuatro medidas y sus precios originales:
 
@@ -54,7 +54,13 @@ Debajo de cada cabecera se conservan las cuatro medidas y sus precios originales
 
 Los artículos Edibles y Supplies, el carrito y la lógica de pedidos se conservan del proyecto anterior.
 
-## Carpeta de archivos para GitHub Pages
+## Video Ferrari alojado en Google Drive
+
+Se conserva `Kreepy CR` con `images/Kreepy.jpeg` y `Oreoz 24%` con `images/Oreoz.jpeg`. La sección Ferrari 24% usa la vista previa de Google Drive mediante `iframe`:
+
+`https://drive.google.com/file/d/1cmNWUA6uDxhNCxB80T1hAQfjdD7lV9yE/preview`
+
+Para que los visitantes puedan reproducirlo, en Google Drive abre el archivo → **Compartir** → **Acceso general** → **Cualquier persona con el enlace** → **Lector**. Comprueba que la vista previa se reproduce en ventana de incógnito. Google Drive puede mostrar sus propios controles y limitar la reproducción o calidad según permisos, tráfico y navegador; no se puede garantizar desde el HTML que el iframe siempre esté disponible. El archivo MP4 ya no es necesario para la sección Ferrari en GitHub Pages.
 
 ```text
 Tu repositorio/
@@ -63,27 +69,11 @@ Tu repositorio/
 ├── images/
 │   ├── Kreepy.jpeg
 │   ├── Oreoz.jpeg
-│   └── ... tus otros JPEG
-└── videos/
-    └── ezyZip.mp4
+│   └── ... otros JPEG
+└── videos/  (opcional; Ferrari ya no lo utiliza)
 ```
 
-**Importante:** este paquete solo contiene el HTML, Markdown e instrucciones; los archivos JPEG y MP4 no fueron adjuntados y debes conservarlos de tu proyecto original. En `index.html`, `var IMGS` mantiene las referencias a `images/Kreepy.jpeg`, `images/Oreoz.jpeg` y `videos/ezyZip.mp4`.
-
-### Si ezyZip.mp4 no reproduce
-
-El HTML primero intenta `videos/ezyZip.mp4` y, si falla, intenta `ezyZip.mp4` en la raíz del repositorio. Si tampoco carga, aparece un aviso en lugar de cubrir el video con otra etiqueta.
-
-1. En VS Code, confirma que `videos/ezyZip.mp4` existe y que el nombre coincide exactamente, incluidos mayúsculas y minúsculas.
-2. Verifica que el archivo esté realmente **subido** a GitHub y no solo en tu computadora: `git status` y `git ls-files videos/ezyZip.mp4`.
-3. Tras publicar, visita la URL de tu GitHub Pages terminada en `/videos/ezyZip.mp4`. Si da 404, el archivo no se está publicando en esa ruta. Si descarga pero no reproduce, revisa el códec de video.
-4. Un contenedor `.mp4` no garantiza compatibilidad. Para máxima compatibilidad web usa H.264 para video y AAC para audio (opcional). Si fuera HEVC u otro formato, conviértelo con FFmpeg sin sobrescribir tu original:
-
-```bash
-ffmpeg -i videos/ezyZip.mp4 -c:v libx264 -pix_fmt yuv420p -crf 18 -preset slow -c:a aac -b:a 192k -movflags +faststart videos/Ferrari-web.mp4
-```
-
-Para usar el convertido, cambia solo `s4` de `videos/ezyZip.mp4` a `videos/Ferrari-web.mp4` en `var IMGS`. **No hay video real incluido en este ZIP; no es posible confirmar desde aquí su codificación.**
+Si el reproductor integrado no aparece, prueba el enlace público de Drive directamente: https://drive.google.com/file/d/1cmNWUA6uDxhNCxB80T1hAQfjdD7lV9yE/view
 
 ## Publicación en el repositorio existente
 
@@ -91,8 +81,8 @@ Copia `index.html` y `Tony’s Farm.md` sobre los originales, **sin borrar** `im
 
 ```bash
 git status
-git add index.html "Tony’s Farm.md" images/ videos/
-git commit -m "Corregir cabeceras y orden de Strains"
+git add index.html "Tony’s Farm.md"
+git commit -m "Integrar video Ferrari desde Google Drive"
 git push origin main
 ```
 
