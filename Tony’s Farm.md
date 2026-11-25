@@ -59,7 +59,6 @@ Los artículos Edibles y Supplies, el carrito y la lógica de pedidos se conserv
 ```text
 Tu repositorio/
 ├── index.html
-├── Tony’s Farm.md
 ├── images/
 │   ├── Kreepy.jpeg
 │   ├── Oreoz.jpeg
