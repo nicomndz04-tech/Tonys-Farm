@@ -171,6 +171,8 @@ body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:150px;backg
 .strain-hero{position:relative;width:100%;aspect-ratio:16/9;min-width:0;min-height:0;background:#10200d;border:3px solid #2a1b0e;border-radius:20px;overflow:hidden;box-shadow:0 5px 0 #2a1b0e;margin:0 0 28px}
 .strain-hero img,.strain-hero video{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:100%;object-fit:contain;object-position:center;background:#10200d}
 .strain-hero video{cursor:auto}
+/* El reproductor externo de Drive mantiene las mismas medidas del header. */
+.strain-hero iframe{position:absolute;inset:0;display:block;width:100%;height:100%;border:0;background:#10200d}
 .strain-missing{display:none;position:absolute;inset:0;align-items:center;justify-content:center;text-align:center;padding:24px;background:#171d17;color:#f6efd9;font-size:.92rem;font-weight:700}
 .strain-hero.media-missing .strain-missing{display:flex}
 /* Deja respirar la insignia 'Mejor precio' y todas las tarjetas. */
@@ -277,7 +279,7 @@ var IMGS={
   s1:"images/Kreepy.jpeg",
   s2:"images/Oreoz.jpeg",
   s3:"images/Chocolates.jpeg",
-  s4:"videos/ezyZip.mp4",
+  s4:"https://drive.google.com/file/d/1cmNWUA6uDxhNCxB80T1hAQfjdD7lV9yE/preview",
   e1:"images/Edibles 1.jpeg",
   e2:"images/Edibles 2.jpeg",
   e3:"images/Edibles 3.jpeg",
@@ -345,28 +347,16 @@ function slot(it){
  return '<div class="ph">'+media+'<span>📷<small>Imagen · '+esc(it.n)+'</small></span></div>';
 }
 function ch(id,d){qs[id]=Math.max(1,(qs[id]||1)+d);render()}
-/* Solo soporte de medios en cabeceras; no cambia las tarjetas ni los pedidos. */
-function strainVideoError(video){
- var frame=video.parentNode;
- if(video.dataset.reintento!=="1"){
-  /* Si el archivo estaba en la raiz, intenta esa ruta tambien. */
-  video.dataset.reintento="1";
-  video.src="ezyZip.mp4";
-  video.load();
-  return;
- }
- if(frame){
-  frame.classList.add("media-missing");
-  var aviso=frame.querySelector(".strain-missing");
-  if(aviso)aviso.textContent="No se pudo abrir ezyZip.mp4. Revisa la publicacion del archivo y su codificacion H.264.";
- }
- console.warn("ezyZip.mp4 no pudo cargarse o reproducirse.",video.currentSrc,video.error&&video.error.code);
-}
+/* Soporte de medios de cabecera: Drive se incrusta como iframe. Las tarjetas y pedidos quedan intactos. */
 function strainHeader(g){
- var src=esc(g.src||""),video=/\.(mp4|webm)$/i.test(g.src||"");
- var media=g.src?(video
-  ?'<video src="'+src+'" controls playsinline preload="metadata" aria-label="Video de '+esc(g.name)+'" onerror="strainVideoError(this)"></video>'
-  :'<img src="'+src+'" alt="Variedad '+esc(g.name)+'" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'media-missing\')">'
+ var source=g.src||"",src=esc(source),
+     drive=/^https:\/\/drive\.google\.com\/file\/d\/[a-zA-Z0-9_-]+\/preview(?:[?#].*)?$/i.test(source),
+     video=/\.(mp4|webm)$/i.test(source);
+ var media=source?(drive
+   ?'<iframe src="'+src+'" title="Video de '+esc(g.name)+' en Google Drive" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'
+   :video
+      ?'<video src="'+src+'" controls playsinline preload="metadata" aria-label="Video de '+esc(g.name)+'" onerror="this.parentNode.classList.add(\'media-missing\')"></video>'
+      :'<img src="'+src+'" alt="Variedad '+esc(g.name)+'" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'media-missing\')">'
  ):'';
  return '<div class="strain-heading"><h2 class="strain-name">'+esc(g.name)+'</h2></div>'+
   '<div class="strain-hero" role="group" aria-label="'+esc(g.name)+'">'+media+
