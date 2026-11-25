@@ -272,12 +272,12 @@ var ITEMS=[
 /* Rutas tomadas de los nombres visibles en VS Code.
    Las cuatro primeras se asignaron provisionalmente: cambia de lugar las rutas
    si alguna foto no corresponde al producto. Los Supplies quedan sin asignar.
-   Copia las imagenes originales a /images y Ferrari.mp4 a /videos. */
+   Copia las imagenes originales a /images y ezyZip.mp4 a /videos. */
 var IMGS={
   s1:"images/Kreepy.jpeg",
   s2:"images/Oreoz.jpeg",
   s3:"images/Chocolates.jpeg",
-  s4:"videos/Ferrari.mp4",
+  s4:"videos/ezyZip.mp4",
   e1:"images/Edibles 1.jpeg",
   e2:"images/Edibles 2.jpeg",
   e3:"images/Edibles 3.jpeg",
@@ -351,16 +351,16 @@ function strainVideoError(video){
  if(video.dataset.reintento!=="1"){
   /* Si el archivo estaba en la raiz, intenta esa ruta tambien. */
   video.dataset.reintento="1";
-  video.src="Ferrari.mp4";
+  video.src="ezyZip.mp4";
   video.load();
   return;
  }
  if(frame){
   frame.classList.add("media-missing");
   var aviso=frame.querySelector(".strain-missing");
-  if(aviso)aviso.textContent="No se pudo abrir Ferrari.mp4. Revisa la publicacion del archivo y su codificacion H.264.";
+  if(aviso)aviso.textContent="No se pudo abrir ezyZip.mp4. Revisa la publicacion del archivo y su codificacion H.264.";
  }
- console.warn("Ferrari.mp4 no pudo cargarse o reproducirse.",video.currentSrc,video.error&&video.error.code);
+ console.warn("ezyZip.mp4 no pudo cargarse o reproducirse.",video.currentSrc,video.error&&video.error.code);
 }
 function strainHeader(g){
  var src=esc(g.src||""),video=/\.(mp4|webm)$/i.test(g.src||"");
