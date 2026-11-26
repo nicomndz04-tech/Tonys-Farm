@@ -37,11 +37,11 @@ Pide hoy y recibe sin pagar envío. Después del 31 de diciembre, se acaba.
 
 Se muestran tres bloques de ancho completo, **en este orden**:
 
-1. **Kreepy CR** — `images/Kreepy.jpeg`
+1. **Kreepy 🇨🇷** — `images/Kreepy.jpeg`
 2. **Oreoz 24%** — `images/Oreoz.jpeg`
-3. **Ferrari 24%** — video en línea: `https://drive.google.com/file/d/1cmNWUA6uDxhNCxB80T1hAQfjdD7lV9yE/preview`
+3. **Ferrari 24%** — video en línea: `https://www.image2url.com/r2/default/videos/1795653511309-78c125b3-6068-4039-8e5c-f4898fcd4373.mp4`
 
-En cada bloque la etiqueta amarilla se presenta **encima y fuera del medio**, nunca por encima de la foto ni de los controles del video. Las fotos originales se muestran con `object-fit: contain` para evitar recortes o distorsiones: puede haber márgenes oscuros cuando su relación de aspecto no sea 16:9. El reproductor de Ferrari utiliza el iframe de Google Drive y Google controla la calidad de streaming. El código no recomprime las fotos.
+En cada bloque la etiqueta amarilla se presenta **encima y fuera del medio**, nunca por encima de la foto ni de los controles del video. Las fotos originales se muestran con `object-fit: contain` para evitar recortes o distorsiones: puede haber márgenes oscuros cuando su relación de aspecto no sea 16:9. El reproductor de Ferrari usa el video MP4 remoto directamente mediante HTML5 (`<video controls playsinline>`), manteniendo un espacio 16:9 en celulares. El código no recomprime las fotos.
 
 Debajo de cada cabecera se conservan las cuatro medidas y sus precios originales:
 
@@ -54,13 +54,13 @@ Debajo de cada cabecera se conservan las cuatro medidas y sus precios originales
 
 Los artículos Edibles y Supplies, el carrito y la lógica de pedidos se conservan del proyecto anterior.
 
-## Video Ferrari alojado en Google Drive
+## Video Ferrari alojado mediante enlace MP4
 
-Se conserva `Kreepy CR` con `images/Kreepy.jpeg` y `Oreoz 24%` con `images/Oreoz.jpeg`. La sección Ferrari 24% usa la vista previa de Google Drive mediante `iframe`:
+Se conserva `Kreepy 🇨🇷` con `images/Kreepy.jpeg` y `Oreoz 24%` con `images/Oreoz.jpeg`. La sección Ferrari 24% usa un archivo MP4 externo mediante `<video>`:
 
-`https://drive.google.com/file/d/1cmNWUA6uDxhNCxB80T1hAQfjdD7lV9yE/preview`
+`https://www.image2url.com/r2/default/videos/1795653511309-78c125b3-6068-4039-8e5c-f4898fcd4373.mp4`
 
-Para que los visitantes puedan reproducirlo, en Google Drive abre el archivo → **Compartir** → **Acceso general** → **Cualquier persona con el enlace** → **Lector**. Comprueba que la vista previa se reproduce en ventana de incógnito. Google Drive puede mostrar sus propios controles y limitar la reproducción o calidad según permisos, tráfico y navegador; no se puede garantizar desde el HTML que el iframe siempre esté disponible. El archivo MP4 ya no es necesario para la sección Ferrari en GitHub Pages.
+El servidor del video debe estar disponible públicamente y permitir reproducirlo desde otros dominios. También debe servir MP4 en un formato compatible con el navegador. No hace falta guardar ese MP4 en GitHub si el enlace remoto funciona. La reproducción del recurso no pudo verificarse automáticamente desde este entorno.
 
 ```text
 Tu repositorio/
@@ -73,7 +73,7 @@ Tu repositorio/
 └── videos/  (opcional; Ferrari ya no lo utiliza)
 ```
 
-Si el reproductor integrado no aparece, prueba el enlace público de Drive directamente: https://drive.google.com/file/d/1cmNWUA6uDxhNCxB80T1hAQfjdD7lV9yE/view
+Si el reproductor no aparece, prueba el archivo MP4 directamente en una pestaña nueva: https://www.image2url.com/r2/default/videos/1795653511309-78c125b3-6068-4039-8e5c-f4898fcd4373.mp4
 
 ## Publicación en el repositorio existente
 
@@ -82,7 +82,7 @@ Copia `index.html` y `Tony’s Farm.md` sobre los originales, **sin borrar** `im
 ```bash
 git status
 git add index.html "Tony’s Farm.md"
-git commit -m "Integrar video Ferrari desde Google Drive"
+git commit -m "Actualizar video Ferrari con MP4 remoto"
 git push origin main
 ```
 

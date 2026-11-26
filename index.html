@@ -183,7 +183,7 @@ body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:150px;backg
  .strain-heading{margin-bottom:10px;min-height:36px}
  .strain-name{font-size:1.15rem;padding:5px 11px}
  .strain-hero{aspect-ratio:4/3;border-radius:16px;margin-bottom:21px}
-  .strain-hero.is-youtube{aspect-ratio:16/9} /* Solo Ferrari: proporción nativa del reproductor */
+  .strain-hero.is-youtube,.strain-hero.is-video{aspect-ratio:16/9} /* Solo Ferrari: proporción nativa del reproductor */
  .strain-section>.cards{padding-top:13px}
 }
 
@@ -333,7 +333,7 @@ var IMGS={
   s1:"images/Kreepy.jpeg",
   s2:"images/Oreoz.jpeg",
   s3:"images/Chocolates.jpeg",
-  s4:"https://www.youtube.com/embed/3cBcSTXb4AI?playsinline=1&rel=0",
+  s4:"https://www.image2url.com/r2/default/videos/1795653511309-78c125b3-6068-4039-8e5c-f4898fcd4373.mp4",
   e1:"images/Edibles 1.jpeg",
   e2:"images/Edibles 2.jpeg",
   e3:"images/Edibles 3.jpeg",
@@ -414,7 +414,7 @@ function strainHeader(g){
       :'<img src="'+src+'" alt="Variedad '+esc(g.name)+'" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'media-missing\')">'
  ):'';
  return '<div class="strain-heading"><h2 class="strain-name">'+esc(g.name)+'</h2></div>'+
-  '<div class="strain-hero'+(youtube?' is-youtube':'')+'" role="group" aria-label="'+esc(g.name)+'">'+media+
+  '<div class="strain-hero'+(youtube?' is-youtube':video?' is-video':'')+'" role="group" aria-label="'+esc(g.name)+'">'+media+
   '<span class="strain-missing">No se encontró el archivo de '+esc(g.name)+'</span></div>';
 }
 /* Tarjeta original: mismos huevos, precio, descuento, controles y botón. */
