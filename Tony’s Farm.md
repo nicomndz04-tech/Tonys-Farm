@@ -89,20 +89,18 @@ git push origin main
 Si la rama es otra, sustituye `main` por el resultado de `git branch --show-current`. Recarga la página publicada con `Ctrl + Shift + R`.
 
 
-## Banner lateral de métodos de pago (nuevo)
+## Tablón decorativo del margen izquierdo
 
-Se incorporó **únicamente en el espacio libre a la izquierda del contador de envío** un cartel informativo con estética náutica original (sin replicar marcas ajenas), usando el verde y amarillo del sitio. En pantallas de menos de 1500 px el banner se reubica en el flujo de la página para no superponerse con el contenido.
+Se agregó una sección de avisos de estética náutica original (barco blanco sobre negro, tipografía de inspiración clásica) **solo al margen lateral izquierdo del contador** en pantallas con suficiente espacio. No desplaza la portada ni el contador. En pantallas angostas se oculta para no tapar la página.
 
-El cartel menciona efectivo, SINPE Móvil, transferencia bancaria, tarjeta si está disponible, entrega coordinada y retiro acordado. La información se refiere **solo a productos cuya venta esté permitida**; no es una pasarela de pago, no cobra, no valida métodos ni solicita cédula o ubicación.
+No incluye cobros, ofertas de trueque, fiado, solicitud de cédula ni mecanismos de pago. No se modificaron el inventario, carrito, precios, imágenes, videos ni demás scripts.
 
-Se conservaron intactos el inventario, precios, imágenes, video Ferrari en Google Drive, carrito y funciones originales.
+### Actualizar Github Pages
 
-### Cómo subir los archivos al repositorio existente
-
-Reemplaza únicamente `index.html` y `Tony’s Farm.md` en tu carpeta del proyecto (mantén `images/` y `videos/`). Después ejecuta:
+Reemplaza `index.html` y `Tony’s Farm.md` en tu repositorio existente; conserva `images/` y `videos/`.
 
 ```bash
 git add index.html "Tony’s Farm.md"
-git commit -m "Agregar banner informativo lateral"
+git commit -m "Agregar tablon nautico lateral"
 git push origin main
 ```
