@@ -38,3 +38,10 @@ En `index.html`, utiliza **Ctrl + F** para encontrar `tfGreetingCopy`. En esta v
 - **Línea 342**: botón de cerrar (`tf-greeting-ok`). Cambia su etiqueta entre `>` y `</button>` sin tocar `onclick="closeGreeting()"`.
 
 El pollito SVG, el estilo, la aparición tras iniciar sesión, el carrito, los productos, imágenes y el video no fueron alterados en esta actualización.
+
+
+## Bienvenida en líneas separadas
+
+El mensaje del popup se organiza en tres bloques para una lectura clara en móvil. Para editar el mensaje desde Visual Studio Code, busca `id="tfGreetingCopy"` en `index.html`. Cada línea está dentro de `<span class="tf-greeting-line">`; no cambies el identificador del párrafo ni la función `closeGreeting()`. El CSS usa `.tf-greeting-copy` y `.tf-greeting-line` para el espaciado.
+
+El texto se limita a novedades y beneficios para productos de venta permitida.
