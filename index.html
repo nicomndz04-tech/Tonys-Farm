@@ -183,6 +183,7 @@ body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:150px;backg
  .strain-heading{margin-bottom:10px;min-height:36px}
  .strain-name{font-size:1.15rem;padding:5px 11px}
  .strain-hero{aspect-ratio:4/3;border-radius:16px;margin-bottom:21px}
+  .strain-hero.is-youtube{aspect-ratio:16/9} /* Solo Ferrari: proporción nativa del reproductor */
  .strain-section>.cards{padding-top:13px}
 }
 
@@ -206,7 +207,13 @@ body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:150px;backg
 .tf-pay-trade h4{margin:0 0 6px;color:var(--yel);font-size:1rem}
 .tf-pay-trade p{margin:0;font-size:.82rem;line-height:1.5}
 .tf-pay-footer{position:relative;margin:11px 0 0;text-align:center;font-size:.74rem;color:#c9c39f}
-@media(max-width:760px){.tf-pay{bottom:calc(82px + env(safe-area-inset-bottom,0px))}.tf-pay>summary{padding:9px 13px}.tf-pay-content{max-height:calc(100dvh - 175px)}}
+/* En móvil ambos botones flotantes comparten altura, sin taparse. */
+@media(max-width:760px){
+ .tf-pay{left:8px;bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:calc(50vw - 12px)}
+ .tf-pay>summary{padding:10px 8px;gap:3px;font-size:clamp(10px,3vw,14px);white-space:nowrap}
+ .fab{right:8px;bottom:calc(14px + env(safe-area-inset-bottom,0px));padding:10px 8px;font-size:clamp(10px,3vw,14px);white-space:nowrap}
+ .tf-pay-content{max-height:calc(100dvh - 115px)}
+}
 @media(prefers-reduced-motion:reduce){.tf-pay>summary .tf-pay-chevron{transition:none}}
 </style>
 </head>
@@ -326,7 +333,7 @@ var IMGS={
   s1:"images/Kreepy.jpeg",
   s2:"images/Oreoz.jpeg",
   s3:"images/Chocolates.jpeg",
-  s4:"https://drive.google.com/file/d/1cmNWUA6uDxhNCxB80T1hAQfjdD7lV9yE/preview",
+  s4:"https://www.youtube.com/embed/069vR-0txwk?playsinline=1&rel=0",
   e1:"images/Edibles 1.jpeg",
   e2:"images/Edibles 2.jpeg",
   e3:"images/Edibles 3.jpeg",
@@ -394,19 +401,20 @@ function slot(it){
  return '<div class="ph">'+media+'<span>📷<small>Imagen · '+esc(it.n)+'</small></span></div>';
 }
 function ch(id,d){qs[id]=Math.max(1,(qs[id]||1)+d);render()}
-/* Soporte de medios de cabecera: Drive se incrusta como iframe. Las tarjetas y pedidos quedan intactos. */
+/* Soporte de cabecera: YouTube y Drive utilizan iframe. Tarjetas y pedidos intactos. */
 function strainHeader(g){
  var source=g.src||"",src=esc(source),
      drive=/^https:\/\/drive\.google\.com\/file\/d\/[a-zA-Z0-9_-]+\/preview(?:[?#].*)?$/i.test(source),
+     youtube=/^https:\/\/(?:www\.)?youtube(?:-nocookie)?\.com\/embed\/[a-zA-Z0-9_-]{11}(?:[?#].*)?$/i.test(source),
      video=/\.(mp4|webm)$/i.test(source);
- var media=source?(drive
-   ?'<iframe src="'+src+'" title="Video de '+esc(g.name)+' en Google Drive" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'
+ var media=source?(drive||youtube
+   ?'<iframe src="'+src+'" title="Video de '+esc(g.name)+'" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'
    :video
       ?'<video src="'+src+'" controls playsinline preload="metadata" aria-label="Video de '+esc(g.name)+'" onerror="this.parentNode.classList.add(\'media-missing\')"></video>'
       :'<img src="'+src+'" alt="Variedad '+esc(g.name)+'" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'media-missing\')">'
  ):'';
  return '<div class="strain-heading"><h2 class="strain-name">'+esc(g.name)+'</h2></div>'+
-  '<div class="strain-hero" role="group" aria-label="'+esc(g.name)+'">'+media+
+  '<div class="strain-hero'+(youtube?' is-youtube':'')+'" role="group" aria-label="'+esc(g.name)+'">'+media+
   '<span class="strain-missing">No se encontró el archivo de '+esc(g.name)+'</span></div>';
 }
 /* Tarjeta original: mismos huevos, precio, descuento, controles y botón. */

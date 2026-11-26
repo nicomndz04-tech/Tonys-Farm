@@ -87,20 +87,3 @@ git push origin main
 ```
 
 Si la rama es otra, sustituye `main` por el resultado de `git branch --show-current`. Recarga la página publicada con `Ctrl + Shift + R`.
-
-
-## Tablón decorativo del margen izquierdo
-
-Se agregó una sección de avisos de estética náutica original (barco blanco sobre negro, tipografía de inspiración clásica) **solo al margen lateral izquierdo del contador** en pantallas con suficiente espacio. No desplaza la portada ni el contador. En pantallas angostas se oculta para no tapar la página.
-
-No incluye cobros, ofertas de trueque, fiado, solicitud de cédula ni mecanismos de pago. No se modificaron el inventario, carrito, precios, imágenes, videos ni demás scripts.
-
-### Actualizar Github Pages
-
-Reemplaza `index.html` y `Tony’s Farm.md` en tu repositorio existente; conserva `images/` y `videos/`.
-
-```bash
-git add index.html "Tony’s Farm.md"
-git commit -m "Agregar tablon nautico lateral"
-git push origin main
-```
