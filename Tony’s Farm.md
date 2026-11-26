@@ -1,89 +1,40 @@
-# Tony’s Farm
+# Tony’s Farm — cambios puntuales
 
-Del pollo a su jeta
+Esta actualización parte de la versión existente del sitio. Solo añade un estado temporal no disponible a **Huevos Edibles** y **Huevos Supplies**, y un mensaje de bienvenida después de iniciar sesión.
 
-🚚 Express GRATIS hasta el 31 de diciembre
+## Secciones no disponibles
 
-Acceso exclusivo para clientes
+- Al tocar **Huevos Edibles** o **Huevos Supplies**, las tarjetas de esa sección quedan desenfocadas y sin interacción.
+- Sobre la sección aparece **Por el momento no disponible**.
+- Los controles de compra de esas dos secciones quedan inactivos mientras estén deshabilitadas.
+- La categoría principal, el resto de los estilos, precios y el carrito existente no se modifican.
 
-🌾🪶🥚🌿🌾
+## Saludo después del acceso
 
-☁️☁️
+Se muestra un diálogo visual con un pollito y casco ilustrado mediante SVG, sin solicitar correo ni información adicional. El diálogo puede cerrarse. El nuevo texto invita a compartir el proyecto y conocer novedades de productos de venta permitida, sin descuentos por compra de productos controlados.
 
-🐔🐓
+## Video Ferrari
 
-Tony’s Farm
+Se reemplazó el enlace MP4 externo que daba error por el reproductor integrado de Google Drive que anteriormente aparecía reproduciéndose en las capturas compartidas. Se conserva el formato **16:9** también en teléfonos. URL utilizada: `https://drive.google.com/file/d/1cmNWUA6uDxhNCxB80T1hAQfjdD7lV9yE/preview`. La reproducción final depende de los permisos públicos del archivo y de Google Drive; no ha sido posible verificarla directamente desde este entorno.
 
-·
+## Cómo publicar
 
-🥚 Sin intermediarios • 🚚 Express GRATIS hasta el 31 de diciembre • 🐔 Del pollo a su jeta • 🥚 Sin intermediarios • 🚚 Express GRATIS hasta el 31 de diciembre • 🐔 Del pollo a su jeta • 🥚 Sin intermediarios • 🚚 Express GRATIS hasta el 31 de diciembre • 🐔 Del pollo a su jeta • 🥚 Sin intermediarios • 🚚 Express GRATIS hasta el 31 de diciembre • 🐔 Del pollo a su jeta •
-
-## Huevos frescos, directo de la finca
-
-Sin intermediarios · Del pollo a su jeta
-
-🥚 Frescos🐔 De la finca🚚 Express gratis
-
-## 🚚 ¡Express GRATIS hasta fin de año!
-
-Pide hoy y recibe sin pagar envío. Después del 31 de diciembre, se acaba.
-
-© Tony’s Farm · Pedidos por WhatsApp
-
-
----
-
-## Orden y diseño de Huevos Strains
-
-Se muestran tres bloques de ancho completo, **en este orden**:
-
-1. **Kreepy 🇨🇷** — `images/Kreepy.jpeg`
-2. **Oreoz 24%** — `images/Oreoz.jpeg`
-3. **Ferrari 24%** — video en línea: `https://www.image2url.com/r2/default/videos/1795653511309-78c125b3-6068-4039-8e5c-f4898fcd4373.mp4`
-
-En cada bloque la etiqueta amarilla se presenta **encima y fuera del medio**, nunca por encima de la foto ni de los controles del video. Las fotos originales se muestran con `object-fit: contain` para evitar recortes o distorsiones: puede haber márgenes oscuros cuando su relación de aspecto no sea 16:9. El reproductor de Ferrari usa el video MP4 remoto directamente mediante HTML5 (`<video controls playsinline>`), manteniendo un espacio 16:9 en celulares. El código no recomprime las fotos.
-
-Debajo de cada cabecera se conservan las cuatro medidas y sus precios originales:
-
-| Medida | Cantidad de huevos | Precio |
-| --- | ---: | ---: |
-| Personal 8 | 3.5 | ₡20 000 |
-| Pequeña M/M | 7 | ₡35 000 |
-| Mediana M | 14 | ₡65 000 |
-| Grande Z | 28 | ₡125 000 |
-
-Los artículos Edibles y Supplies, el carrito y la lógica de pedidos se conservan del proyecto anterior.
-
-## Video Ferrari alojado mediante enlace MP4
-
-Se conserva `Kreepy 🇨🇷` con `images/Kreepy.jpeg` y `Oreoz 24%` con `images/Oreoz.jpeg`. La sección Ferrari 24% usa un archivo MP4 externo mediante `<video>`:
-
-`https://www.image2url.com/r2/default/videos/1795653511309-78c125b3-6068-4039-8e5c-f4898fcd4373.mp4`
-
-El servidor del video debe estar disponible públicamente y permitir reproducirlo desde otros dominios. También debe servir MP4 en un formato compatible con el navegador. No hace falta guardar ese MP4 en GitHub si el enlace remoto funciona. La reproducción del recurso no pudo verificarse automáticamente desde este entorno.
-
-```text
-Tu repositorio/
-├── index.html
-├── Tony’s Farm.md
-├── images/
-│   ├── Kreepy.jpeg
-│   ├── Oreoz.jpeg
-│   └── ... otros JPEG
-└── videos/  (opcional; Ferrari ya no lo utiliza)
-```
-
-Si el reproductor no aparece, prueba el archivo MP4 directamente en una pestaña nueva: https://www.image2url.com/r2/default/videos/1795653511309-78c125b3-6068-4039-8e5c-f4898fcd4373.mp4
-
-## Publicación en el repositorio existente
-
-Copia `index.html` y `Tony’s Farm.md` sobre los originales, **sin borrar** `images/` ni `videos/`. En la terminal de VS Code:
+Mantén las carpetas `images/` y `videos/` del repositorio. Reemplaza únicamente `index.html` y ejecuta:
 
 ```bash
-git status
-git add index.html "Tony’s Farm.md"
-git commit -m "Actualizar video Ferrari con MP4 remoto"
+git add index.html
+git commit -m "Marcar secciones temporalmente no disponibles"
 git push origin main
 ```
 
-Si la rama es otra, sustituye `main` por el resultado de `git branch --show-current`. Recarga la página publicada con `Ctrl + Shift + R`.
+Abre la página en un navegador normal (fuera del Integrated Browser de VS Code).
+
+## Cómo cambiar el texto de la bienvenida en VS Code
+
+En `index.html`, utiliza **Ctrl + F** para encontrar `tfGreetingCopy`. En esta versión:
+
+- **Línea 340**: título del diálogo (`tfGreetingTitle`).
+- **Línea 341**: párrafo editable (`tfGreetingCopy`). Cambia solo el texto entre `>` y `</p>`.
+- **Línea 342**: botón de cerrar (`tf-greeting-ok`). Cambia su etiqueta entre `>` y `</button>` sin tocar `onclick="closeGreeting()"`.
+
+El pollito SVG, el estilo, la aparición tras iniciar sesión, el carrito, los productos, imágenes y el video no fueron alterados en esta actualización.
