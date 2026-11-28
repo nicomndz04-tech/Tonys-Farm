@@ -1,0 +1,10 @@
+Estos son los dos videos originales del repositorio:
+- Ferrari.mp4  (6.339.126 bytes)
+- ezyZip.mp4   (6.394.066 bytes)
+
+No fue posible descargar sus bytes en este entorno.
+Para completar la carpeta, ejecuta DESCARGAR_VIDEOS.bat desde la carpeta principal
+(o copia manualmente los MP4 originales desde tu repositorio de GitHub).
+
+No reemplaces los MP4 por archivos de otro nombre. El HTML mantiene intacto
+el enlace al video ya configurado en la version anterior.
