@@ -500,6 +500,54 @@ body.tf-cocoa-mode .tf-contact-banner-link {
   .tf-curtain-panel,.tf-curtain-center,.tf-cocoa-wave,.tf-cocoa-message,
   .tf-contact-banner-link {transition:none!important;animation:none!important;}
 }
+
+/* ===== Compra de porciones — Wake N’ Bakery ===== */
+body.tf-cocoa-mode .tf-dessert-buy {
+ background:linear-gradient(138deg,#1c4235 0%,#123126 100%);
+ color:#f3f2e8;border:1px solid #638d77;border-top:0;
+ border-radius:0 0 18px 18px;
+ margin:-3px 4px 0;padding:18px 19px 16px;
+ box-shadow:0 5px 0 #0b2119;
+}
+body.tf-cocoa-mode .tf-dessert-wide{border-radius:20px 20px 12px 12px}
+.tf-dessert-buy-info{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.tf-dessert-eyebrow{display:block;color:#b7d2c4;font-size:.69rem;font-weight:900;letter-spacing:.11em;margin-bottom:2px}
+.tf-dessert-buy-info strong{font-family:'Lilita One','Trebuchet MS',sans-serif;font-size:clamp(1.55rem,3vw,2rem);font-weight:400;color:#effff0;line-height:1.2}
+.tf-dessert-buy-info small{color:#d1e6d7;font-size:.85rem}
+.tf-dessert-buy-tag{font-size:.77rem;font-weight:750;color:#c2ddcb;border:1px solid #6a9e86;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.tf-dessert-buy-actions{display:grid;grid-template-columns:auto minmax(160px,1fr);gap:12px;align-items:stretch;margin-top:14px}
+.tf-dessert-qty{display:inline-grid;grid-template-columns:44px 46px 44px;align-items:center;justify-content:center;min-height:49px;border:1px solid #86b49d;background:#0c281e;border-radius:12px;overflow:hidden}
+.tf-dessert-qty button{height:100%;min-height:48px;border:0;border-radius:0;box-shadow:none;padding:0;background:transparent;color:#efffe9;font-size:1.45rem}
+.tf-dessert-qty button:hover{background:#316650}
+.tf-dessert-qty button:focus-visible{outline:2px solid #deffc4;outline-offset:-3px}
+.tf-dessert-qty output{text-align:center;color:#fff;font-weight:900;font-variant-numeric:tabular-nums;font-size:1.1rem}
+.tf-dessert-add{border:1px solid #d8e9c1;border-radius:12px;background:#c9e6ce!important;color:#0e2b1e!important;box-shadow:0 3px 0 #07190f!important;font-weight:900;min-height:49px;padding:10px 12px}
+.tf-dessert-add:hover{filter:brightness(1.08)}
+.tf-dessert-add.tf-dessert-added{animation:tfBakeryAdded .45s ease}
+@keyframes tfBakeryAdded{50%{filter:brightness(1.25);transform:scale(1.025)}}
+.tf-dessert-subtotal{border-top:1px solid #426e59;margin-top:15px;padding-top:11px;display:flex;justify-content:space-between;align-items:center;gap:12px;color:#c4ddcc;font-size:.82rem}
+.tf-dessert-subtotal strong{font-size:.98rem;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}
+.tf-cart-group-title{font-family:inherit;font-size:.83rem!important;font-weight:900!important;letter-spacing:.03em;margin:17px 0 5px!important;padding:7px 10px;border-radius:9px;background:var(--bg);color:var(--ink)}
+.tf-cart-line{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.tf-cart-line-info{min-width:0;display:grid;gap:3px;font-size:.9rem}
+.tf-cart-line-info small{color:var(--mute);font-size:.78rem}
+.tf-cart-line-info strong{font-weight:900;font-size:.9rem}
+.tf-cart-qty{flex-shrink:0;gap:7px}
+.tf-cart-qty button{padding:5px 10px;min-height:37px}
+.tf-cart-qty b{min-width:18px;text-align:center}
+.tf-cart-total{border-top:2px solid var(--line);margin-top:11px;padding-top:14px;font-size:1.1rem}
+@media(max-width:510px){
+ body.tf-cocoa-mode .tf-dessert-buy{padding:14px 13px;margin:-3px 2px 0}
+ .tf-dessert-buy-actions{grid-template-columns:1fr;gap:10px}
+ .tf-dessert-qty{width:100%;grid-template-columns:1fr 1fr 1fr}
+ .tf-dessert-buy-tag{font-size:.72rem}
+ .tf-dessert-qty button{min-height:44px}
+ .tf-dessert-add{width:100%}
+ .tf-dessert-subtotal{font-size:.8rem}
+ .tf-cart-line-info{font-size:.83rem}
+}
+@media(prefers-reduced-motion:reduce){.tf-dessert-add.tf-dessert-added{animation:none}}
+
 </style>
 </head>
 <body>
@@ -607,7 +655,7 @@ body.tf-cocoa-mode .tf-contact-banner-link {
 <button class="fab" id="fab">🧺 Mi pedido · <span id="cnt">0</span> · <span id="tot">₡0</span></button>
 </section>
 <div id="layer"></div>
-<!-- Galería visual informativa de postres, sin carrito, precio ni pedidos -->
+<!-- Galería de la chocolatería: fotos y compra de porciones independientes -->
 <div class="tf-dessert-modal" id="tfDessertModal" hidden>
  <div class="tf-dessert-modal-card" role="dialog" aria-modal="true" aria-labelledby="tfDessertTitle">
   <button class="tf-dessert-x" type="button" onclick="tfDessertClose()" aria-label="Cerrar galería">✕</button>
@@ -740,8 +788,8 @@ function closeGreeting(){var g=$("tfGreeting");g.hidden=true}
 document.addEventListener("keydown",function(ev){if(ev.key==="Escape"&&$("tfGreeting")&&!$("tfGreeting").hidden)closeGreeting()});
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
 function free(){return END-new Date()>0}
-function byId(id){return ITEMS.concat(STRAIN_PRODUCTS).filter(function(i){return i.id===id})[0]}
-function label(it){return it.c==="strains"?"Huevos "+(it.variety?it.variety+" · ":"")+it.n+" ("+it.pc+" huevos)":it.n}
+function byId(id){return ITEMS.concat(STRAIN_PRODUCTS,TF_DESSERT_PRODUCTS).find(function(i){return i.id===id})}
+function label(it){return it.c==="strains"?"Huevos "+(it.variety?it.variety+" · ":"")+it.n+" ("+it.pc+" huevos)":it.c==="bakery"?it.n+" (porción)":it.n}
 function per(it){return it.p/it.pc}
 function greet(){var d=new Date(),h=d.getHours(),m=h>=5&&h<12,t=h>=12&&h<19;
  $("hello").textContent=(m?"☀️ Buenos días":t?"🌤️ Buenas tardes":"🌙 Buenas noches");
@@ -750,12 +798,17 @@ function greet(){var d=new Date(),h=d.getHours(),m=h>=5&&h<12,t=h>=12&&h<19;
 function eggs(n){var h="",f=Math.floor(n);for(var i=0;i<f;i++)h+='<i class="e" style="animation-delay:'+i*25+'ms"></i>';if(n>f)h+='<i class="e brk" style="animation-delay:'+f*25+'ms">'+BRK+'</i>';return h}
 function totals(){var n=0,t=0;Object.keys(cart).forEach(function(i){n+=cart[i];t+=cart[i]*byId(i).p});$("cnt").textContent=n;$("tot").textContent=col(t);return t}
 
-/* ===== Opciones de postres: fichas visuales, sin venta ni dosificación ===== */
+/* ===== Chocolatería: postres con compra por porciones ===== */
 var TF_DESSERTS=[
  {key:"chocolate",name:"Queque de Chocolate 3500mg🌳",photos:["images/Edibles 2.jpeg","images/Edibles 6.jpeg","images/Edibles 7.jpeg"],description:"Queque de chocolate presentado en porciones triangulares. En las fotos se observa una cubierta brillante de chocolate y pequeños copetes decorativos de crema color caramelo sobre cada rebanada.",texture:"Cobertura lisa y brillante sobre un bizcocho oscuro de apariencia compacta.",presentation:"Porciones triangulares individuales y vista completa del queque ya dividido.",galleryNote:"Tres ángulos de la misma preparación para observar el acabado, el corte y la decoración."},
  {key:"chilena",name:"Torta Chilena 3500mg🚀",photos:["images/Edibles 3.jpeg","images/Edibles 5.jpeg"],description:"Torta de capas delgadas visibles en el corte, con relleno intercalado y una fila de crema clara sobre la superficie. La galería incluye una porción servida y varias unidades protegidas en envases transparentes.",texture:"Capas finas y apiladas, con decoración suave y migas doradas en la parte superior.",presentation:"Vista de una porción en recipiente transparente y varias presentaciones empacadas.",galleryNote:"Dos fotografías para comparar la estructura del corte y el aspecto de la presentación."},
  {key:"chocoflan",name:"Choco Flan 3500mg🌱",photos:["images/Edibles 1.jpeg","images/Edibles 4.jpeg"],description:"Postre de dos capas que combina una base oscura tipo queque con una capa clara de flan. La superficie tiene un acabado acaramelado de color ámbar; las fotografías muestran porciones en recipientes individuales.",texture:"Contraste visual de capas, con una superficie lisa y una base de bizcocho.",presentation:"Rebanadas triangulares colocadas en contenedores transparentes individuales.",galleryNote:"Dos fotografías para ver el corte lateral, el acabado superior y los recipientes."}
-];
+ ];
+/* Catálogo compartido con el carrito: cada sabor tiene ID propio para cantidades independientes. */
+var TF_DESSERT_PRICE=12000;
+var TF_DESSERT_PRODUCTS=TF_DESSERTS.map(function(d){
+ return {id:"bakery_"+d.key,c:"bakery",n:d.name,p:TF_DESSERT_PRICE,unit:"porción",dessertKey:d.key};
+});
 var tfDessertActive=null,tfDessertIndex=0,tfDessertRestoreFocus=null,tfDessertSwipeX=null;
 var tfOriginalHero=null;
 function tfUpdateHero(){
@@ -807,18 +860,48 @@ function tfDessertModalStart(){
  },TF_DESSERT_SLIDE_MS);
 }
 function tfDessertSections(){
-  var banner='<header class="tf-gallery-header"><h2>🍰 Galería de postres</h2></header>'+
-   '<aside class="tf-gallery-availability" role="status" aria-label="Aviso de disponibilidad">'+
-   '<strong>📷 Galería fotográfica</strong>'+
-   '<p>Imágenes de referencia.</p>'+
+ var banner='<header class="tf-gallery-header"><h2>🍫 Chocolatería · Pedí por porciones</h2></header>'+
+   '<aside class="tf-gallery-availability" role="status" aria-label="Aviso de catálogo">'+
+   '<strong>📷 Fotos de cada postre</strong><p>Elegí tu porción debajo de cada galería.</p>'+
    '<button type="button" aria-label="Cerrar aviso" onclick="this.parentElement.hidden=true">×</button></aside>';
-  return banner+TF_DESSERTS.map(function(d,i){
-    return '<section class="tf-dessert-section" aria-labelledby="tfDessertHead'+i+'">'+
-      '<div class="tf-dessert-heading"><h2 class="tf-dessert-name" id="tfDessertHead'+i+'">'+esc(d.name)+'</h2></div>'+
-      '<button class="tf-dessert-wide" data-tf-dessert-key="'+d.key+'" style="--tf-dessert-img:url(&quot;'+esc(d.photos[0])+'&quot;)" type="button" onclick="tfDessertOpen(&quot;'+d.key+'&quot;)" aria-label="Abrir galería de '+esc(d.name)+'">'+
-      '<img src="'+esc(d.photos[0])+'" data-tf-index="0" alt="'+esc(d.name)+'" loading="lazy" decoding="async"><span class="tf-dessert-open-label">📷 Ver fotos ('+d.photos.length+')</span></button>'+
-      '</section>';
-  }).join('');
+ return banner+TF_DESSERTS.map(function(d,i){
+   var id="bakery_"+d.key,quantity=qs[id]||1;
+   return '<section class="tf-dessert-section" aria-labelledby="tfDessertHead'+i+'">'+
+     '<div class="tf-dessert-heading"><h2 class="tf-dessert-name" id="tfDessertHead'+i+'">'+esc(d.name)+'</h2></div>'+
+     '<button class="tf-dessert-wide" data-tf-dessert-key="'+d.key+'" style="--tf-dessert-img:url(&quot;'+esc(d.photos[0])+'&quot;)" type="button" onclick="tfDessertOpen(&quot;'+d.key+'&quot;)" aria-label="Abrir galería de '+esc(d.name)+'">'+
+     '<img src="'+esc(d.photos[0])+'" data-tf-index="0" alt="'+esc(d.name)+'" loading="lazy" decoding="async"><span class="tf-dessert-open-label">📷 Ver fotos ('+d.photos.length+')</span></button>'+
+     '<div class="tf-dessert-buy" role="group" aria-label="Comprar '+esc(d.name)+'">'+
+       '<div class="tf-dessert-buy-info"><div><span class="tf-dessert-eyebrow">PORCIÓN INDIVIDUAL</span><strong>'+col(TF_DESSERT_PRICE)+'</strong><small> por pedazo</small></div><span class="tf-dessert-buy-tag">🍰 Elegí la cantidad</span></div>'+
+       '<div class="tf-dessert-buy-actions"><div class="tf-dessert-qty" aria-label="Cantidad de porciones de '+esc(d.name)+'">'+
+        '<button type="button" onclick="tfDessertChangeQty(&quot;'+d.key+'&quot;,-1)" aria-label="Quitar una porción de '+esc(d.name)+'">−</button>'+
+        '<output id="tfDessertQty_'+d.key+'" aria-live="polite">'+quantity+'</output>'+
+        '<button type="button" onclick="tfDessertChangeQty(&quot;'+d.key+'&quot;,1)" aria-label="Agregar una porción de '+esc(d.name)+'">+</button></div>'+
+       '<button type="button" class="tf-dessert-add" onclick="tfDessertAdd(&quot;'+d.key+'&quot;,this)">🧺 Añadir al pedido</button></div>'+
+       '<div class="tf-dessert-subtotal">Subtotal de esta selección <strong id="tfDessertSub_'+d.key+'">'+col(quantity*TF_DESSERT_PRICE)+'</strong></div>'+
+     '</div></section>';
+ }).join('');
+}
+/* Cambiar cantidades no regenera las fotos, así la presentación automática no se interrumpe. */
+function tfDessertChangeQty(key,diff){
+ var p=byId("bakery_"+key);if(!p)return;
+ var quantity=Math.max(1,Math.min(99,(qs[p.id]||1)+diff));
+ qs[p.id]=quantity;
+ var el=$("tfDessertQty_"+key),sum=$("tfDessertSub_"+key);
+ if(el)el.textContent=quantity;
+ if(sum)sum.textContent=col(quantity*p.p);
+}
+function tfDessertAdd(key,btn){
+ var p=byId("bakery_"+key);if(!p)return;
+ var quantity=qs[p.id]||1;
+ cart[p.id]=(cart[p.id]||0)+quantity;
+ qs[p.id]=1;
+ var el=$("tfDessertQty_"+key),sum=$("tfDessertSub_"+key);
+ if(el)el.textContent="1";
+ if(sum)sum.textContent=col(p.p);
+ totals();
+ var fab=$("fab");fab.classList.remove("bump");void fab.offsetWidth;fab.classList.add("bump");
+ btn.classList.remove("tf-dessert-added");void btn.offsetWidth;btn.classList.add("tf-dessert-added");
+ toast("🍰 "+quantity+" "+(quantity===1?"porción agregada":"porciones agregadas")+" · "+p.n);
 }
 function tfDessertOpen(key){
  tfDessertActive=TF_DESSERTS.find(function(x){return x.key===key});if(!tfDessertActive)return;
@@ -1011,18 +1094,63 @@ function eggFx(x,y,done){
  setTimeout(done,FIN);setTimeout(function(){el.remove()},D+60)}
 function add(id,btn){var r=btn.getBoundingClientRect(),it=byId(id);cart[id]=(cart[id]||0)+(qs[id]||1);qs[id]=1;render();
  eggFx(r.left+r.width/2,r.top,function(){toast("🥚 "+(it.variety?it.variety+" · ":"")+it.n+" agregado");var f=$("fab");f.classList.remove("bump");void f.offsetWidth;f.classList.add("bump")})}
-function msg(){var k=Object.keys(cart),t=0,m="Hola Tony, soy "+user.id+". Quiero hacer este pedido (Tony’s Farm):\n"+k.map(function(i){var it=byId(i);t+=cart[i]*it.p;return "• "+cart[i]+" x "+label(it)}).join("\n")+"\nTotal: "+col(t)+(free()?"\nEnvío express: GRATIS":"");
- var a=$("addr")?$("addr").value.trim():"",n=$("note")?$("note").value.trim():"";if(a)m+="\nDirección: "+a;if(n)m+="\nNota: "+n;return m}
+function msg(){
+ var ids=Object.keys(cart).filter(function(id){return cart[id]>0&&byId(id)});
+ var farm=ids.filter(function(id){return byId(id).c!=="bakery"});
+ var dessert=ids.filter(function(id){return byId(id).c==="bakery"});
+ var total=0;
+ function lines(selected){return selected.map(function(id){
+   var p=byId(id),qty=cart[id],subtotal=qty*p.p;total+=subtotal;
+   return "• "+qty+" x "+label(p)+" — "+col(p.p)+" c/u = "+col(subtotal);
+ }).join("\n")}
+ var m="Hola Tony, soy "+(user?user.id:"cliente")+". Quiero hacer este pedido (Tony’s Farm):";
+ if(farm.length)m+="\n\n🥚 PRODUCTOS DE LA FINCA\n"+lines(farm);
+ if(dessert.length)m+="\n\n🍫 CHOCOLATERÍA · PORCIONES\n"+lines(dessert);
+ m+="\n\nTOTAL: "+col(total)+(free()?"\nEnvío express: GRATIS":"");
+ var a=$("addr")?$("addr").value.trim():"",n=$("note")?$("note").value.trim():"";
+ if(a)m+="\nDirección: "+a;
+ if(n)m+="\nNota: "+n;
+ return m;
+}
 /* WhatsApp: un único enlace válido para la vista previa y el envío del pedido. */
 function whatsappPedidoURL(m){var numero=String(WHATSAPP).replace(/\D/g,"");return "https://wa.me/"+numero+"?text="+encodeURIComponent(m)}
 function upd(){var m=msg();$("wa").href=whatsappPedidoURL(m);$("prev").value=m;try{localStorage.setItem("tf-addr",$("addr").value)}catch(e){}}
 function go(){if(!Object.keys(cart).length){toast("Agrega algo primero");return false}if(!$("addr").value.trim()){toast("Escribe tu dirección de entrega");$("addr").focus();return false}$("wa").href=whatsappPedidoURL(msg());return true}
 function cp(){var p=$("prev");p.select();try{navigator.clipboard.writeText(p.value).then(function(){toast("Mensaje copiado")},function(){document.execCommand("copy");toast("Mensaje copiado")})}catch(e){try{document.execCommand("copy");toast("Mensaje copiado")}catch(x){}}}
-function openCart(){var t=0,rows=Object.keys(cart).map(function(i){var it=byId(i);t+=cart[i]*it.p;
- return '<div class="row"><div><b>'+(it.variety?it.variety+' · ':'')+it.n+'</b><br><small style="color:var(--mute)">'+col(it.p)+' c/u</small></div><span class="qty"><button class="ghost" onclick="cq(\''+i+'\',-1)">−</button>'+cart[i]+'<button class="ghost" onclick="cq(\''+i+'\',1)">+</button></span></div>'}).join("");
- var sv="";try{sv=localStorage.getItem("tf-addr")||""}catch(e){}
- $("layer").innerHTML='<div class="veil" onclick="closeL()"><div class="sheet" onclick="event.stopPropagation()"><h2 style="margin-bottom:8px">Tu pedido</h2>'+(rows||'<p style="color:var(--mute)">Aún no has agregado nada.</p>')+(free()?'<div class="free">🚚 Envío express: GRATIS</div>':'')+'<div class="row"><b>Total</b><b>'+col(t)+'</b></div><input id="addr" placeholder="Dirección de entrega (obligatoria)" value="'+esc(sv)+'" oninput="upd()"><textarea id="note" rows="2" placeholder="Nota para Tony (hora, referencias…)" oninput="upd()"></textarea><a class="btn" id="wa" href="#" target="_blank" rel="noopener noreferrer" onclick="return go()">💬 Enviar pedido por WhatsApp</a><details><summary>Ver o copiar el mensaje</summary><textarea id="prev" readonly rows="6"></textarea><button class="ghost" style="width:100%" onclick="cp()">Copiar mensaje</button></details></div></div>';upd()}
-function cq(id,d){cart[id]+=d;if(cart[id]<1)delete cart[id];render();openCart()}
+function openCart(){
+ var oldAddress=$("addr")?$("addr").value:null;
+ var oldNote=$("note")?$("note").value:"";
+ var t=0,ids=Object.keys(cart).filter(function(id){return cart[id]>0&&byId(id)});
+ function rowsFor(group,title){
+  var list=ids.filter(function(id){return group==="bakery"?byId(id).c==="bakery":byId(id).c!=="bakery"});
+  if(!list.length)return "";
+  return '<h3 class="tf-cart-group-title">'+title+'</h3>'+list.map(function(id){
+   var p=byId(id),qty=cart[id],subtotal=qty*p.p;t+=subtotal;
+   var title=p.c==="bakery"?p.n:(p.variety?p.variety+" · ":"")+p.n;
+   var unit=p.c==="bakery"?"porción":"unidad";
+   return '<div class="tf-cart-line"><div class="tf-cart-line-info"><b>'+esc(title)+'</b><small>'+col(p.p)+' / '+unit+'</small><strong>'+col(subtotal)+'</strong></div>'+ 
+    '<span class="qty tf-cart-qty"><button class="ghost" aria-label="Quitar una unidad de '+esc(title)+'" onclick="cq(\''+id+'\',-1)">−</button><b>'+qty+'</b><button class="ghost" aria-label="Agregar una unidad de '+esc(title)+'" onclick="cq(\''+id+'\',1)">+</button></span></div>';
+  }).join("");
+ }
+ var rows=rowsFor("farm","🥚 Productos de la finca")+rowsFor("bakery","🍫 Chocolatería · porciones");
+ var sv=oldAddress;
+ if(sv===null){try{sv=localStorage.getItem("tf-addr")||""}catch(e){sv=""}}
+ $("layer").innerHTML='<div class="veil" onclick="closeL()"><div class="sheet" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-label="Tu pedido">'+
+ '<h2 style="margin-bottom:8px">Tu pedido</h2>'+(rows||'<p style="color:var(--mute)">Aún no has agregado nada.</p>')+
+ (free()?'<div class="free">🚚 Envío express: GRATIS</div>':'')+
+ '<div class="row tf-cart-total"><b>Total del pedido</b><b>'+col(t)+'</b></div>'+
+ '<input id="addr" placeholder="Dirección de entrega (obligatoria)" aria-label="Dirección de entrega" value="'+esc(sv)+'" oninput="upd()">'+
+ '<textarea id="note" rows="2" placeholder="Nota para Tony (hora, referencias…)" aria-label="Nota para Tony" oninput="upd()"></textarea>'+
+ '<a class="btn" id="wa" href="#" target="_blank" rel="noopener noreferrer" onclick="return go()">💬 Enviar pedido por WhatsApp</a>'+
+ '<details><summary>Ver o copiar el mensaje</summary><textarea id="prev" readonly rows="7"></textarea><button class="ghost" style="width:100%" onclick="cp()">Copiar mensaje</button></details></div></div>';
+ $("note").value=oldNote;
+ upd();
+}
+function cq(id,d){
+ cart[id]=(cart[id]||0)+d;
+ if(cart[id]<=0)delete cart[id];
+ totals();openCart();
+}
 function closeL(){$("layer").innerHTML=""}
 
 $("go").onclick=login;$("p").onkeydown=function(e){if(e.key==="Enter")login()};
