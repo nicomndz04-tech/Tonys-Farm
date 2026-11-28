@@ -1132,7 +1132,7 @@ function openCart(){
     '<span class="qty tf-cart-qty"><button class="ghost" aria-label="Quitar una unidad de '+esc(title)+'" onclick="cq(\''+id+'\',-1)">−</button><b>'+qty+'</b><button class="ghost" aria-label="Agregar una unidad de '+esc(title)+'" onclick="cq(\''+id+'\',1)">+</button></span></div>';
   }).join("");
  }
- var rows=rowsFor("farm","🥚 Productos de la finca")+rowsFor("bakery","🍫 Chocolatería · porciones");
+ var rows=rowsFor("farm","🥚 Productos de la finca")+rowsFor("bakery","🍫 Pastelería · porciones");
  var sv=oldAddress;
  if(sv===null){try{sv=localStorage.getItem("tf-addr")||""}catch(e){sv=""}}
  $("layer").innerHTML='<div class="veil" onclick="closeL()"><div class="sheet" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-label="Tu pedido">'+
