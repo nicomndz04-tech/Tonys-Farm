@@ -860,7 +860,7 @@ function tfDessertModalStart(){
  },TF_DESSERT_SLIDE_MS);
 }
 function tfDessertSections(){
- var banner='<header class="tf-gallery-header"><h2>🍫 Chocolatería · Pedí por porciones</h2></header>'+
+ var banner='<header class="tf-gallery-header"><h2>🍫 Pastelería · Pedí por porciones</h2></header>'+
    '<aside class="tf-gallery-availability" role="status" aria-label="Aviso de catálogo">'+
    '<strong>📷 Fotos de cada postre</strong><p>Elegí tu porción debajo de cada galería.</p>'+
    '<button type="button" aria-label="Cerrar aviso" onclick="this.parentElement.hidden=true">×</button></aside>';
@@ -1105,7 +1105,7 @@ function msg(){
  }).join("\n")}
  var m="Hola Tony, soy "+(user?user.id:"cliente")+". Quiero hacer este pedido (Tony’s Farm):";
  if(farm.length)m+="\n\n🥚 PRODUCTOS DE LA FINCA\n"+lines(farm);
- if(dessert.length)m+="\n\n🍫 CHOCOLATERÍA · PORCIONES\n"+lines(dessert);
+ if(dessert.length)m+="\n\n🍫 PASTELERÍA · PORCIONES\n"+lines(dessert);
  m+="\n\nTOTAL: "+col(total)+(free()?"\nEnvío express: GRATIS":"");
  var a=$("addr")?$("addr").value.trim():"",n=$("note")?$("note").value.trim():"";
  if(a)m+="\nDirección: "+a;
